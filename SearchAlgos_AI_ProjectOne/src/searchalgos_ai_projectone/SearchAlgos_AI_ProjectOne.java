@@ -46,6 +46,7 @@ public class SearchAlgos_AI_ProjectOne extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
     }
     
 }

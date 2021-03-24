@@ -1,0 +1,3 @@
+	Jerusalem	Ramallah
+Jerusalem	50,60	60,87
+Ramallah	60,87	50,65
