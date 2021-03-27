@@ -16,6 +16,7 @@ public class City {
     String cityName;
     Info cityInfo;
     ArrayList<City> adjacentCities;
+    public City parent;
 
     public City(String cityName, Info cityInfo) {
         this.cityName = cityName;
@@ -27,8 +28,47 @@ public class City {
         this.cityName = cityName;
         adjacentCities = new ArrayList<>();
     }
-    
-    
+
+    public static void setMainCities(ArrayList<City> mainCities) {
+        City.mainCities = mainCities;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setCityInfo(Info cityInfo) {
+        this.cityInfo = cityInfo;
+    }
+
+    public void setAdjacentCities(ArrayList<City> adjacentCities) {
+        this.adjacentCities = adjacentCities;
+    }
+
+    public void setParent(City parent) {
+        this.parent = parent;
+    }
+
+    public static ArrayList<City> getMainCities() {
+        return mainCities;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public Info getCityInfo() {
+        return cityInfo;
+    }
+
+    public ArrayList<City> getAdjacentCities() {
+        return adjacentCities;
+    }
+
+    public City getParent() {
+        return parent;
+    }
+
     public void addAdjacentCity(City cityAdded){
         adjacentCities.add(cityAdded);
     }
