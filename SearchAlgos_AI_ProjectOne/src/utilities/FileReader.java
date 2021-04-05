@@ -31,11 +31,15 @@ public class FileReader {
                 String adjacentCityName = nodeInfo[0];
                 // check if there is a relation !!!!
                 for(int i=1; i<nodeInfo.length;i++){
-                    if (nodeInfo[i].equalsIgnoreCase("-"))
-                        continue;
+//                    if (nodeInfo[i].equalsIgnoreCase("-"))
+//                        continue;
                     String [] infoParameters = nodeInfo[i].split(",");
-                    Info adjacentCityInfo = new Info (Double.parseDouble(infoParameters[0]),Double.parseDouble(infoParameters[1]),"1");
-                    City.mainCities.get(i-1).addAdjacentCity(new City(adjacentCityName, adjacentCityInfo));
+                    Info heuristicInfo = new Info(Double.parseDouble(infoParameters[0]));
+                    City.mainCities.get(i-1).addHeuristicCity(new City(adjacentCityName, heuristicInfo));
+                    if (!infoParameters[1].equalsIgnoreCase("-")) {
+                        Info adjacentCityInfo = new Info(Double.parseDouble(infoParameters[0]), Double.parseDouble(infoParameters[1]), "1");
+                        City.mainCities.get(i - 1).addAdjacentCity(new City(adjacentCityName, adjacentCityInfo));
+                    }
                 }            
             }
             myReader.close();
@@ -47,6 +51,8 @@ public class FileReader {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-        DepthFirst.executeDFS(City.mainCities.get(0));
+        //DepthFirst.executeDFS(City.mainCities.get(0));
+
+
     }
 }

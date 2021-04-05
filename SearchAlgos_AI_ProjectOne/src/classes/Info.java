@@ -20,6 +20,10 @@ public class Info {
         this.congestionFactor = congestionFactor;
     }
 
+    public Info(double arealDistance) {
+        this.arealDistance = arealDistance;
+    }
+
     public double getArealDistance() {
         return arealDistance;
     }

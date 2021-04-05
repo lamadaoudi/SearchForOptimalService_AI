@@ -13,9 +13,11 @@ import java.util.ArrayList;
  */
 public class City {
     public static ArrayList<City> mainCities = new ArrayList<>();
+
     String cityName;
     Info cityInfo;
     ArrayList<City> adjacentCities;
+    ArrayList<City> heuristicCities = new ArrayList<>();
     public City parent;
 
     public City(String cityName, Info cityInfo) {
@@ -72,13 +74,18 @@ public class City {
     public void addAdjacentCity(City cityAdded){
         adjacentCities.add(cityAdded);
     }
+    public void addHeuristicCity(City cityAdded){
+        heuristicCities.add(cityAdded);
+    }
 
     @Override
     public String toString() {
-        return "City{" + "cityName=" + cityName + ", cityInfo=" + cityInfo + ", adjacentCities=" + adjacentCities + '}';
+        return "City{" +
+                "cityName='" + cityName + '\'' +
+                ", cityInfo=" + cityInfo +
+                ", adjacentCities=" + adjacentCities +
+                ", heuristicCities=" + heuristicCities +
+                ", parent=" + parent +
+                '}';
     }
-    
-    
-    
-    
 }
