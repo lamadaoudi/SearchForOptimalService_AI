@@ -12,6 +12,7 @@ package classes;
 public class Info {
     double arealDistance;
     double drivingDistance;
+    double summation;
     String congestionFactor;
 
     public Info(double arealDistance, double drivingDistance, String congestionFactor) {
@@ -22,6 +23,14 @@ public class Info {
 
     public Info(double arealDistance) {
         this.arealDistance = arealDistance;
+    }
+
+    public void setSummation(double summation) {
+        this.summation = summation;
+    }
+
+    public double getSummation() {
+        return summation;
     }
 
     public double getArealDistance() {
@@ -50,8 +59,11 @@ public class Info {
 
     @Override
     public String toString() {
-        return "Info{" + "arealDistance=" + arealDistance + ", drivingDistance=" + drivingDistance + ", congestionFactor=" + congestionFactor + '}';
+        return "Info{" +
+                "arealDistance=" + arealDistance +
+                ", drivingDistance=" + drivingDistance +
+                ", summation=" + summation +
+                ", congestionFactor='" + congestionFactor + '\'' +
+                '}';
     }
-    
-   
 }

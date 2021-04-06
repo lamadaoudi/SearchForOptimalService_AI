@@ -1,28 +1,34 @@
 package utilities;
 
+import algorithms.AStar;
 import algorithms.DepthFirst;
 import algorithms.DepthFirst.*;
 import classes.City;
 import classes.Info;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class FileReader {
+   public static HashMap<String, Integer> mapCitiesIndex = new HashMap<>();
 
     public static void main(String[] args) {
         try {
-            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\cities.txt");
+            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\backup.txt");
             Scanner myReader = new Scanner(myObj);
             String firstRow = myReader.nextLine();
             String[] arrayOfCityNames = firstRow.split("\t");
+
             
             // adding the main cities
             for(int i=0; i< arrayOfCityNames.length; i++){
                 if(!arrayOfCityNames[i].isEmpty()){
                     City.mainCities.add(new City(arrayOfCityNames[i]));
-                    
+                    int size = City.mainCities.size()-1;
+                    mapCitiesIndex.put(arrayOfCityNames[i], size);
                 }
+
             }
             
             while (myReader.hasNextLine()) {
@@ -52,6 +58,9 @@ public class FileReader {
             e.printStackTrace();
         }
         //DepthFirst.executeDFS(City.mainCities.get(0));
+        AStar.aStarForOneGoal(City.mainCities.get(0).getHeuristicCities().get(0));
+
+
 
 
     }
