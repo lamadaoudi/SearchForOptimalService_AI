@@ -67,6 +67,14 @@ public class City {
         return adjacentCities;
     }
 
+    public ArrayList<City> getHeuristicCities() {
+        return heuristicCities;
+    }
+
+    public void setHeuristicCities(ArrayList<City> heuristicCities) {
+        this.heuristicCities = heuristicCities;
+    }
+
     public City getParent() {
         return parent;
     }

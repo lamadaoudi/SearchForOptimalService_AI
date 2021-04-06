@@ -44,7 +44,6 @@ public class DepthFirst {
                 stackDPF.pop();
 
             //explore.add(current);
-
             for ( int i=0; i<current.getAdjacentCities().size(); i++){
                 City temp = current.getAdjacentCities().get(i);
                 if (visited.get(temp.getCityName()) == false){
@@ -68,6 +67,7 @@ public class DepthFirst {
              reversePath.push(goalNode);
              goalNode = goalNode.parent;
          }
+         //ADD A QUEUE FOR THE PATH, NOT PRINT
          System.out.println("***********************");
          while (reversePath.size() > 0)
              System.out.println(reversePath.pop());
