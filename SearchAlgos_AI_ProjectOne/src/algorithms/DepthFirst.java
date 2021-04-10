@@ -3,6 +3,7 @@ package algorithms;
 import classes.City;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.Stack;
 
 public class DepthFirst {
@@ -10,7 +11,7 @@ public class DepthFirst {
     static HashMap<String, Boolean> visited = new HashMap<>();
 
 
-     public static void executeDFS(City startNode, ArrayList<City> goalNodes) {
+     public static ArrayList<City> executeDFS(City startNode, ArrayList<City> goalNodes) {
         for (int i = 0; i<size;i++ ){
             visited.put(City.mainCities.get(i).getCityName(),false);
         }
@@ -32,7 +33,7 @@ public class DepthFirst {
                     visited.put(current.getCityName(), true);
                     goalNode = current;
                     break;
-                }
+               }
             }
 
             boolean flagSuccessors = false;
@@ -59,9 +60,9 @@ public class DepthFirst {
                 }
             }
         }
-        System.out.println("**********************");
-         for(int i=0; i< explore.size(); i++)
-             System.out.println(explore.get(i));
+//        System.out.println("**********************");
+//         for(int i=0; i< explore.size(); i++)
+//             System.out.println(explore.get(i));
 
          Stack<City> reversePath = new Stack<>();
 
@@ -70,10 +71,13 @@ public class DepthFirst {
              goalNode = goalNode.parent;
          }
          //ADD A QUEUE FOR THE PATH, NOT PRINT
+         ArrayList<City> path = new ArrayList<>();
          System.out.println("***********************");
-         while (reversePath.size() > 0)
-             System.out.println(reversePath.pop());
-
+         while (reversePath.size() > 0) {
+             System.out.println(reversePath.peek());
+             path.add(reversePath.pop());
+         }
+         return path;
     }
     private static City getCityWithName(String cityName){
         for(int i=0; i<City.mainCities.size(); i++){
