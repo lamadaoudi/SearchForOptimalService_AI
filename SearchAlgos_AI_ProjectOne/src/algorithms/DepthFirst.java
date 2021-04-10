@@ -10,7 +10,7 @@ public class DepthFirst {
     static HashMap<String, Boolean> visited = new HashMap<>();
 
 
-     public static void executeDFS(City startNode) {
+     public static void executeDFS(City startNode, ArrayList<City> goalNodes) {
         for (int i = 0; i<size;i++ ){
             visited.put(City.mainCities.get(i).getCityName(),false);
         }
@@ -22,15 +22,17 @@ public class DepthFirst {
         cityToBeAddedFirst.setAdjacentCities(getCityWithName(startNode.getCityName()).getAdjacentCities());
         explore.add(cityToBeAddedFirst);
         stackDPF.push(cityToBeAddedFirst);
-        City goalNode = City.mainCities.get(2);
+        City goalNode = goalNodes.get(0);
 
         while ( stackDPF.size() > 0 ) {
             City current = stackDPF.peek();
 
-            if (current.getCityName().equalsIgnoreCase(goalNode.getCityName())) {
-                visited.put(current.getCityName(),true);
-                goalNode = current;
-                break;
+            for(int i=0 ; i<goalNodes.size() ; i++) {
+                if (current.getCityName().equalsIgnoreCase(goalNodes.get(i).getCityName())) {
+                    visited.put(current.getCityName(), true);
+                    goalNode = current;
+                    break;
+                }
             }
 
             boolean flagSuccessors = false;

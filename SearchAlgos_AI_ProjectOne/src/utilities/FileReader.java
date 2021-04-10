@@ -1,4 +1,5 @@
 package utilities;
+import algorithms.DepthFirst;
 import algorithms.OptimalTwo;
 import classes.City;
 import classes.Info;
@@ -70,11 +71,13 @@ public class FileReader {
         //DepthFirst.executeDFS(City.mainCities.get(0));
         //AStar.aStarForOneGoal(City.mainCities.get(0).getHeuristicCities().get(0));
         //OptimalTwo.executeOptimalTwo();
-        ArrayList<Integer> goal = new ArrayList<>();
-        goal.add(4);
-        goal.add(5);
-        goal.add(7);
-        OptimalTwo.executeOptimalTwo(0, goal);
+        ArrayList<City> goal = new ArrayList<>();
+        //goal.add(City.mainCities.get(4));
+       // goal.add(City.mainCities.get(5));
+        goal.add(City.mainCities.get(6));
+        DepthFirst.executeDFS(City.mainCities.get(0), goal );
+
+        //OptimalTwo.executeOptimalTwo(0, goal);
 
 
         //AStar.aStarForOneGoal(City.mainCities.get(0).getHeuristicCities().get(0), City.mainCities.get(1));
