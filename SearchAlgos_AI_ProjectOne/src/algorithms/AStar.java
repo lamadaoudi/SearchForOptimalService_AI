@@ -1,6 +1,8 @@
 package algorithms;
 
+import classes.AStarStruct;
 import classes.City;
+import utilities.AStarComparator;
 import utilities.CityComparator;
 
 import java.util.ArrayList;
@@ -11,9 +13,24 @@ import java.util.Stack;
 import static utilities.FileReader.mapCitiesIndex;
 
 public class AStar {
+    static double cost;
+    public static ArrayList<City> executeAStar(int startNode, ArrayList<Integer> goalNodes){
+        PriorityQueue<AStarStruct> queueOfOptions = new PriorityQueue<>(20, new AStarComparator());
+        City start= City.mainCities.get(startNode).getHeuristicCities().get(startNode);
+        for(int i=0; i<goalNodes.size(); i++){
+            City goal = City.mainCities.get(goalNodes.get(i));
+            ArrayList<City> resultPath = aStarForOneGoal(start, goal);
+            AStarStruct tempStruct = new AStarStruct(cost, resultPath);
+            queueOfOptions.add(tempStruct);
+
+        }
+        System.out.println("REULST EKJRWGKLJGLKSFNGKLFGF**************************");
+        for(int i=0; i<queueOfOptions.peek().getPath().size(); i++)
+            System.out.println(queueOfOptions.peek().getPath().get(i));
+        return queueOfOptions.peek().getPath();
+    }
+
     // let's do A* for one start, one goal
-
-
     public static ArrayList<City> aStarForOneGoal(City startNode, City goalNode) {
         int size = City.mainCities.size();
         HashMap<String, Double> visited = new HashMap<>();
@@ -70,10 +87,8 @@ public class AStar {
                 visited.put(temp.getCityName(), summation);
                 explore.add(cityToBeAdded);
             }
-
-
         }
-
+        cost = goalNodeNew.getCityInfo().getSummation();
         Stack<City> reversePath = new Stack<>();
         while (goalNodeNew != null) {
             reversePath.push(goalNodeNew);
@@ -85,6 +100,7 @@ public class AStar {
         System.out.println("*****************PATH**********************");
         for (int i = 0; i < path.size(); i++)
             System.out.println(path.get(i));
+
         return path;
     }
 

@@ -1,4 +1,6 @@
 package utilities;
+import algorithms.AStar;
+import algorithms.DepthFirst;
 import algorithms.OptimalTwo;
 import classes.City;
 import classes.Info;
@@ -58,8 +60,8 @@ public class FileReader {
             }
             myReader.close();
 
-            for (int i = 0; i < City.mainCities.size(); i++)
-                System.out.println(City.mainCities.get(i));
+//            for (int i = 0; i < City.mainCities.size(); i++)
+//                System.out.println(City.mainCities.get(i));
 
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
@@ -70,11 +72,18 @@ public class FileReader {
         //DepthFirst.executeDFS(City.mainCities.get(0));
         //AStar.aStarForOneGoal(City.mainCities.get(0).getHeuristicCities().get(0));
         //OptimalTwo.executeOptimalTwo();
-        ArrayList<Integer> goal = new ArrayList<>();
-        goal.add(4);
-        goal.add(5);
-        goal.add(7);
-        OptimalTwo.executeOptimalTwo(0, goal);
+        ArrayList<City> goal = new ArrayList<>();
+        //goal.add(City.mainCities.get(4));
+       // goal.add(City.mainCities.get(5));
+       // goal.add(City.mainCities.get(6));
+        ArrayList<Integer> goals = new ArrayList<>();
+       // goals.add(4);
+        goals.add(6);
+        goals.add(7);
+        AStar.executeAStar(0, goals);
+        //DepthFirst.executeDFS(City.mainCities.get(0), goal );
+
+        //OptimalTwo.executeOptimalTwo(0, goal);
 
 
         //AStar.aStarForOneGoal(City.mainCities.get(0).getHeuristicCities().get(0), City.mainCities.get(1));
