@@ -12,23 +12,24 @@ import static utilities.FileReader.mapCitiesIndex;
 
 public class AStar {
     // let's do A* for one start, one goal
-    static int size = City.mainCities.size();
-    static HashMap<String, Double> visited = new HashMap<>();
 
 
-    public static ArrayList<City> aStarForOneGoal(City startNode) {
-//        for (int i = 0; i<size;i++ ){
-//            visited.put(City.mainCities.get(i).getCityName(),false);
-//        }
+    public static ArrayList<City> aStarForOneGoal(City startNode, City goalNode) {
+        int size = City.mainCities.size();
+        HashMap<String, Double> visited = new HashMap<>();
 
+        City goalNodeNew = new City(goalNode.getCityName(), goalNode.getCityInfo());
+        goalNodeNew.setHeuristicCities(goalNode.getHeuristicCities());
+        goalNodeNew.setAdjacentCities(goalNode.getAdjacentCities());
+        goalNodeNew.setParent(goalNode.getParent());
         ArrayList<City> explore = new ArrayList<>();
         PriorityQueue<City> queue = new PriorityQueue<>(20, new CityComparator());
-        City goalNode = City.mainCities.get(7);
-        visited.put(startNode.getCityName(), getHeuristic(startNode, goalNode));
+        visited.put(startNode.getCityName(), getHeuristic(startNode, goalNodeNew));
         City cityToBeAddedFirst = new City(startNode.getCityName(), startNode.getCityInfo());
         cityToBeAddedFirst.setParent(null);
-        cityToBeAddedFirst.getCityInfo().setSummation(getHeuristic(startNode, goalNode));
+        cityToBeAddedFirst.getCityInfo().setSummation(getHeuristic(startNode, goalNodeNew));
         cityToBeAddedFirst.setAdjacentCities(getCityWithName(startNode.getCityName()).getAdjacentCities());
+        cityToBeAddedFirst.setHeuristicCities(getCityWithName(startNode.getCityName()).getHeuristicCities());
         explore.add(cityToBeAddedFirst);
 
         queue.add(cityToBeAddedFirst);
@@ -37,20 +38,13 @@ public class AStar {
         while (queue.size() != 0) {
             City current = queue.poll();
 
-            if (current.getCityName().equalsIgnoreCase(goalNode.getCityName())) {
+            if (current.getCityName().equalsIgnoreCase(goalNodeNew.getCityName())) {
                 // visited.put(current.getCityName(), true); NO NEED?
-                goalNode = current;
+                goalNodeNew = current;
                 break;
             }
 
             for (int i = 0; i < current.getAdjacentCities().size(); i++) {
-                // create a new instance --> done?
-                // visited not required???
-                // multiple goals
-                // check the summation --> zabat jarabto 3a test string queue
-                // Ask rawan about ui
-                // YA RAB
-
                 City temp = current.getAdjacentCities().get(i);
 
                 City cityToBeAdded = new City(temp.getCityName(), temp.getCityInfo());
@@ -64,7 +58,7 @@ public class AStar {
                     tempParent = tempParent.parent;
                 }
                 //get heuristic value
-                double heuristic = getHeuristic(cityToBeAdded, goalNode);
+                double heuristic = getHeuristic(cityToBeAdded, goalNodeNew);
                 double summation = realCost + heuristic;
                 cityToBeAdded.getCityInfo().setSummation(summation);
                 if (visited.get(cityToBeAdded.getCityName()) != null) {
@@ -81,15 +75,15 @@ public class AStar {
         }
 
         Stack<City> reversePath = new Stack<>();
-        while (goalNode != null) {
-            reversePath.push(goalNode);
-            goalNode = goalNode.parent;
+        while (goalNodeNew != null) {
+            reversePath.push(goalNodeNew);
+            goalNodeNew = goalNodeNew.parent;
         }
         ArrayList<City> path = new ArrayList<>();
         while (reversePath.size() > 0)
             path.add(reversePath.pop());
         System.out.println("*****************PATH**********************");
-        for(int i=0; i<path.size();i++)
+        for (int i = 0; i < path.size(); i++)
             System.out.println(path.get(i));
         return path;
     }
@@ -102,8 +96,13 @@ public class AStar {
 
     private static City getCityWithName(String cityName) {
         for (int i = 0; i < City.mainCities.size(); i++) {
-            if (City.mainCities.get(i).getCityName().equalsIgnoreCase(cityName))
-                return City.mainCities.get(i);
+            if (City.mainCities.get(i).getCityName().equalsIgnoreCase(cityName)) {
+                City temp = new City(City.mainCities.get(i).getCityName(), City.mainCities.get(i).getCityInfo());
+                temp.setParent(City.mainCities.get(i).getParent());
+                temp.setAdjacentCities(City.mainCities.get(i).getAdjacentCities());
+                temp.setHeuristicCities(City.mainCities.get(i).getHeuristicCities());
+                return temp;
+            }
         }
         return null;
     }

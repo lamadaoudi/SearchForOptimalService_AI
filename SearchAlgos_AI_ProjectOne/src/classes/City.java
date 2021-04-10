@@ -8,7 +8,6 @@ package classes;
 import java.util.ArrayList;
 
 /**
- *
  * @author Main
  */
 public class City {
@@ -22,7 +21,7 @@ public class City {
 
     public City(String cityName, Info cityInfo) {
         this.cityName = cityName;
-        this.cityInfo = cityInfo;
+        setCityInfo(cityInfo);
         adjacentCities = new ArrayList<>();
     }
 
@@ -36,15 +35,20 @@ public class City {
     }
 
     public void setCityName(String cityName) {
+
         this.cityName = cityName;
     }
 
     public void setCityInfo(Info cityInfo) {
+
         this.cityInfo = cityInfo;
+        // this.cityInfo.setSummation(cityInfo.getSummation());
     }
 
     public void setAdjacentCities(ArrayList<City> adjacentCities) {
-        this.adjacentCities = adjacentCities;
+
+        this.adjacentCities = new ArrayList<>(adjacentCities);
+        //this.adjacentCities = adjacentCities;
     }
 
     public void setParent(City parent) {
@@ -64,6 +68,7 @@ public class City {
     }
 
     public ArrayList<City> getAdjacentCities() {
+
         return adjacentCities;
     }
 
@@ -72,17 +77,24 @@ public class City {
     }
 
     public void setHeuristicCities(ArrayList<City> heuristicCities) {
-        this.heuristicCities = heuristicCities;
+//        for(int i=0; i<heuristicCities.size();i++){
+//            City temp = new City(heuristicCities.get(i).getCityName(), heuristicCities.get(i).getCityInfo());
+//            temp.setAdjacentCities(heuristicCities.get(i).getAdjacentCities());
+//
+//        }
+        this.heuristicCities = new ArrayList<>(heuristicCities);
+        //this.heuristicCities = heuristicCities;
     }
 
     public City getParent() {
         return parent;
     }
 
-    public void addAdjacentCity(City cityAdded){
+    public void addAdjacentCity(City cityAdded) {
         adjacentCities.add(cityAdded);
     }
-    public void addHeuristicCity(City cityAdded){
+
+    public void addHeuristicCity(City cityAdded) {
         heuristicCities.add(cityAdded);
     }
 
