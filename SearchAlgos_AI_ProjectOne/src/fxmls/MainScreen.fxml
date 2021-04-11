@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<JFXTabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="873.0" style="-fx-background-color: #393e46;" stylesheets="@../../../../../Documents/NetBeansProjects/1180376_1180815_1181142_1180424/src/StyleSheets/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainScreenController">
+<JFXTabPane fx:id="tabPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="873.0" style="-fx-background-color: #393e46;" stylesheets="@../styles/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainScreenController">
    <tabs>
       <Tab fx:id="tab1" style="-fx-background-color: #393e46;" text="Home                     ">
          <content>
