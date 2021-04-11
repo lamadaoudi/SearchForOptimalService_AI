@@ -10,7 +10,7 @@ public class OptimalTwo {
     static double[][] floydMatrix = new double[size][size];
     static ArrayList<City> overallPath = new ArrayList<>();
 
-    public static void executeOptimalTwo(int startNode, ArrayList<Integer> goalNodes) {
+    public static ArrayList<City> executeOptimalTwo(int startNode, ArrayList<Integer> goalNodes) {
         floydMatrix = getFloydMatrix();
         printSolution(floydMatrix, size);
         int newSize = goalNodes.size() + 1;
@@ -58,6 +58,7 @@ public class OptimalTwo {
 
         // Print: 42.0
         System.out.println("Tour cost: " + solver.getTourCost());
+        return overallPath;
 
     }
 

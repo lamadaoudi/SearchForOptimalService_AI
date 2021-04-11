@@ -4,25 +4,36 @@ package controllers;
  * Sample Skeleton for 'MainScreen.fxml' Controller Class
  */
 
+import algorithms.AStar;
+import algorithms.DepthFirst;
+import algorithms.OptimalTwo;
+import classes.City;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTabPane;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXToggleButton;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.layout.HBox;
+import utilities.FileReader;
+
+import static utilities.FileReader.cityCoordinates;
+import static utilities.FileReader.mapCitiesIndex;
 
 public class MainScreenController {
 
+    ArrayList<City> pathDepthFirst = new ArrayList<>();
+    ArrayList<City> pathAStar = new ArrayList<>();
+    ArrayList<City> pathOptimalTwo = new ArrayList<>();
+    City startNode;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -36,25 +47,25 @@ public class MainScreenController {
     private Tab tab1; // Value injected by FXMLLoader
 
     @FXML // fx:id="startNodeComboBox"
-    private JFXComboBox<?> startNodeComboBox; // Value injected by FXMLLoader
+    private JFXComboBox<String> startNodeComboBox; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox1"
-    private JFXComboBox<?> destinationComboBox1; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox1; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox2"
-    private JFXComboBox<?> destinationComboBox2; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox2; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox3"
-    private JFXComboBox<?> destinationComboBox3; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox3; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox4"
-    private JFXComboBox<?> destinationComboBox4; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox4; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox5"
-    private JFXComboBox<?> destinationComboBox5; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox5; // Value injected by FXMLLoader
 
     @FXML // fx:id="destinationComboBox6"
-    private JFXComboBox<?> destinationComboBox6; // Value injected by FXMLLoader
+    private JFXComboBox<String> destinationComboBox6; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnAddDestination"
     private JFXButton btnAddDestination; // Value injected by FXMLLoader
@@ -62,147 +73,179 @@ public class MainScreenController {
     @FXML // fx:id="btnRunAlgorithms"
     private JFXButton btnRunAlgorithms; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tab2"
-    private Tab tab2; // Value injected by FXMLLoader
 
-    @FXML // fx:id="taProblem1"
-    private JFXTextArea taProblem1; // Value injected by FXMLLoader
+    @FXML
+    private Tab tab2;
 
-    @FXML // fx:id="btnAddProblem"
-    private JFXButton btnAddProblem; // Value injected by FXMLLoader
+    @FXML
+    private Label labelDepth;
 
-    @FXML // fx:id="labelProblem2"
-    private Label labelProblem2; // Value injected by FXMLLoader
+    @FXML
+    private LineChart<Number, Number> chartDepthFirst;
 
-    @FXML // fx:id="taProblem2"
-    private JFXTextArea taProblem2; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis xDepthFirst;
 
-    @FXML // fx:id="labelProblem3"
-    private Label labelProblem3; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis yDepthFirst;
 
-    @FXML // fx:id="taProblem3"
-    private JFXTextArea taProblem3; // Value injected by FXMLLoader
+    @FXML
+    private Tab tab3;
 
-    @FXML // fx:id="labelProblem4"
-    private Label labelProblem4; // Value injected by FXMLLoader
+    @FXML
+    private Label labelAStar;
 
-    @FXML // fx:id="taProblem4"
-    private JFXTextArea taProblem4; // Value injected by FXMLLoader
+    @FXML
+    private LineChart<Number, Number> chartAStar;
 
-    @FXML // fx:id="btnContinueTab2"
-    private JFXButton btnContinueTab2; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis xAStar;
 
-    @FXML // fx:id="hboxPrice1"
-    private HBox hboxPrice1; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis yAStar;
 
-    @FXML // fx:id="tfPrice1"
-    private JFXTextField tfPrice1; // Value injected by FXMLLoader
+    @FXML
+    private Tab tab4;
 
-    @FXML // fx:id="hboxPrice2"
-    private HBox hboxPrice2; // Value injected by FXMLLoader
+    @FXML
+    private Label labelOptimalTwo;
 
-    @FXML // fx:id="tfPrice2"
-    private JFXTextField tfPrice2; // Value injected by FXMLLoader
+    @FXML
+    private LineChart<Number, Number> chartOptimalTwo;
 
-    @FXML // fx:id="hboxPrice3"
-    private HBox hboxPrice3; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis xOptimalTwo;
 
-    @FXML // fx:id="tfPrice3"
-    private JFXTextField tfPrice3; // Value injected by FXMLLoader
+    @FXML
+    private NumberAxis yOptimalTwo;
 
-    @FXML // fx:id="hboxPrice4"
-    private HBox hboxPrice4; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tfPrice4"
-    private JFXTextField tfPrice4; // Value injected by FXMLLoader
 
-    @FXML // fx:id="tab3"
-    private Tab tab3; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tfSerialNumber"
-    private JFXTextField tfSerialNumber; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tfModelNumer"
-    private JFXTextField tfModelNumer; // Value injected by FXMLLoader
-
-    @FXML // fx:id="radioiPhone"
-    private JFXRadioButton radioiPhone; // Value injected by FXMLLoader
-
-    @FXML // fx:id="radioiPad"
-    private JFXRadioButton radioiPad; // Value injected by FXMLLoader
-
-    @FXML // fx:id="radioMacBook"
-    private JFXRadioButton radioMacBook; // Value injected by FXMLLoader
-
-    @FXML // fx:id="radioAppleWatch"
-    private JFXRadioButton radioAppleWatch; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tfSpecifications"
-    private JFXTextField tfSpecifications; // Value injected by FXMLLoader
-
-    @FXML // fx:id="toggleWarranty"
-    private JFXToggleButton toggleWarranty; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tfCondition"
-    private JFXTextField tfCondition; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnContinueTab3"
-    private JFXButton btnContinueTab3; // Value injected by FXMLLoader
-
-    @FXML // fx:id="tab4"
-    private Tab tab4; // Value injected by FXMLLoader
-
-    @FXML // fx:id="technicianTV"
-    private TableView<?> technicianTV; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colID"
-    private TableColumn<?, ?> colID; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colName"
-    private TableColumn<?, ?> colName; // Value injected by FXMLLoader
-
-    @FXML // fx:id="colNumberOfActiveJobs"
-    private TableColumn<?, ?> colNumberOfActiveJobs; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnDone"
-    private JFXButton btnDone; // Value injected by FXMLLoader
-
-    @FXML // fx:id="btnAssign"
-    private JFXButton btnAssign; // Value injected by FXMLLoader
-
+    static int counter = 1;
     @FXML
     void btnAddDestinationClicked(ActionEvent event) {
+        counter++;
+        switch (counter){
+            case 2: destinationComboBox2.setVisible(true);
+            break;
+            case 3: destinationComboBox3.setVisible(true);
+            break;
+            case 4: destinationComboBox4.setVisible(true);
+            break;
+            case 5: destinationComboBox5.setVisible(true);
+            break;
+            case 6: destinationComboBox6.setVisible(true);
+            break;
+            default: System.out.println("No more options available");
 
+        }
     }
 
-    @FXML
-    void btnAddProblemClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnAssignClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnContinuetab2Clicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnContinuetab3Clicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void btnDoneClicked(ActionEvent event) {
-
-    }
 
     @FXML
     void btnRunAlgorithmsClicked(ActionEvent event) {
+        ArrayList<City> goals = new ArrayList<>();
+        ArrayList<Integer> goalInteger = new ArrayList<>();
+        if (destinationComboBox1.isVisible() && !destinationComboBox1.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox1.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (destinationComboBox2.isVisible() && !destinationComboBox2.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox2.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (destinationComboBox3.isVisible() && !destinationComboBox3.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox3.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (destinationComboBox4.isVisible() && !destinationComboBox4.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox4.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (destinationComboBox5.isVisible() && !destinationComboBox5.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox5.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (destinationComboBox6.isVisible() && !destinationComboBox6.getValue().isEmpty()){
+            int index = mapCitiesIndex.get(destinationComboBox6.getValue());
+            City temp = City.mainCities.get(index);
+            goals.add(temp);
+            goalInteger.add(index);
+        }
+        if (!startNodeComboBox.getValue().isEmpty())
+            startNode = City.mainCities.get(mapCitiesIndex.get(startNodeComboBox.getValue())).getHeuristicCities().get(mapCitiesIndex.get(startNodeComboBox.getValue()));
+        if(goals.size()>0 && startNode != null) {
+            pathDepthFirst = DepthFirst.executeDFS(startNode, goals);
+            pathAStar = AStar.executeAStar(mapCitiesIndex.get(startNodeComboBox.getValue()),goalInteger);
+            pathOptimalTwo = OptimalTwo.executeOptimalTwo(mapCitiesIndex.get(startNodeComboBox.getValue()), goalInteger);
+            showDepthFirst();
+            showAStar();
+            showOptimalTwo();
+        }
+    }
+    public void showDepthFirst(){
+        for(int i=0; i<pathDepthFirst.size(); i++){
+            labelDepth.setText(labelDepth.getText() + pathDepthFirst.get(i).getCityName() + "->");
+        }
 
+        chartDepthFirst.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Visualizing The Path");
+        for (int i = 0; i < pathDepthFirst.size(); i++) {
+            XYChart.Data chartData;
+            double x = cityCoordinates.get(mapCitiesIndex.get((pathDepthFirst.get(i).getCityName()))).getX();
+            double y = cityCoordinates.get(mapCitiesIndex.get((pathDepthFirst.get(i).getCityName()))).getY();
+            chartData = new XYChart.Data(x, y);
+            chartData.setNode(new Label(pathDepthFirst.get(i).getCityName()));
+            series.getData().add(chartData);
+
+        }
+        chartDepthFirst.getData().add(series);
+    }
+    public void showAStar(){
+        for(int i=0; i<pathAStar.size(); i++){
+            labelAStar.setText(labelAStar.getText() + pathAStar.get(i).getCityName() + "->");
+        }
+        chartAStar.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Visualizing The Path");
+        for (int i = 0; i < pathAStar.size(); i++) {
+            XYChart.Data chartData;
+            double x = cityCoordinates.get(mapCitiesIndex.get((pathAStar.get(i).getCityName()))).getX();
+            double y = cityCoordinates.get(mapCitiesIndex.get((pathAStar.get(i).getCityName()))).getY();
+            chartData = new XYChart.Data(x, y);
+            chartData.setNode(new Label(pathAStar.get(i).getCityName()));
+            series.getData().add(chartData);
+        }
+        chartAStar.getData().add(series);
+    }
+    public void showOptimalTwo(){
+        for(int i=0; i<pathOptimalTwo.size(); i++){
+            labelOptimalTwo.setText(labelOptimalTwo.getText() + pathOptimalTwo.get(i).getCityName() + "->");
+        }
+        chartOptimalTwo.setAxisSortingPolicy(LineChart.SortingPolicy.NONE);
+        XYChart.Series series = new XYChart.Series();
+        series.setName("Visualizing The Path");
+        for (int i = 0; i < pathOptimalTwo.size(); i++) {
+            XYChart.Data chartData;
+            double x = cityCoordinates.get(mapCitiesIndex.get((pathOptimalTwo.get(i).getCityName()))).getX();
+            double y = cityCoordinates.get(mapCitiesIndex.get((pathOptimalTwo.get(i).getCityName()))).getY();
+            chartData = new XYChart.Data(x, y);
+            chartData.setNode(new Label(pathOptimalTwo.get(i).getCityName()));
+            series.getData().add(chartData);
+
+        }
+        chartOptimalTwo.getData().add(series);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -212,5 +255,19 @@ public class MainScreenController {
         destinationComboBox4.setVisible(false);
         destinationComboBox5.setVisible(false);
         destinationComboBox6.setVisible(false);
+        FileReader.initializeReader();
+        ArrayList<String> cityOptions = new ArrayList<>();
+        for (int i=0; i< City.mainCities.size(); i++){
+            cityOptions.add(City.mainCities.get(i).getCityName());
+        }
+        ObservableList<String> dataListInfo;
+        dataListInfo = FXCollections.observableArrayList(cityOptions);
+        startNodeComboBox.setItems(dataListInfo);
+        destinationComboBox1.setItems(dataListInfo);
+        destinationComboBox2.setItems(dataListInfo);
+        destinationComboBox3.setItems(dataListInfo);
+        destinationComboBox4.setItems(dataListInfo);
+        destinationComboBox5.setItems(dataListInfo);
+        destinationComboBox6.setItems(dataListInfo);
     }
 }
