@@ -3,6 +3,7 @@ import algorithms.AStar;
 import algorithms.DepthFirst;
 import algorithms.OptimalTwo;
 import classes.City;
+import classes.CoordinateNode;
 import classes.Info;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,10 +15,13 @@ import static algorithms.OptimalTwo.distanceMatrix;
 
 public class FileReader {
     public static HashMap<String, Integer> mapCitiesIndex = new HashMap<>();
+    public static HashMap<Integer, CoordinateNode> cityCoordinates = new HashMap<>();
 
-    public static void main(String[] args) {
+
+    public static void initializeReader() {
+        City.mainCities = new ArrayList<>();
         try {
-            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\backup.txt");
+            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\tryTe.txt");
             Scanner myReader = new Scanner(myObj);
             String firstRow = myReader.nextLine();
             String[] arrayOfCityNames = firstRow.split("\t");
@@ -59,6 +63,20 @@ public class FileReader {
                 counter++;
             }
             myReader.close();
+            File readerCoordinate = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\cityCoordinates.txt");
+            Scanner scannerCoordinate = new Scanner(readerCoordinate);
+            int countCities = 0;
+            while (scannerCoordinate.hasNextLine()) {
+                String data = scannerCoordinate.nextLine();
+                String[] coordinateInfo = data.split(",");
+                CoordinateNode tempNode = new CoordinateNode(Double.parseDouble(coordinateInfo[0]), Double.parseDouble(coordinateInfo[1]));
+                cityCoordinates.put(countCities, tempNode);
+                countCities++;
+            }
+            scannerCoordinate.close();
+            for (int i=0; i<cityCoordinates.size(); i++){
+                System.out.println(cityCoordinates.get(i));
+            }
 
 //            for (int i = 0; i < City.mainCities.size(); i++)
 //                System.out.println(City.mainCities.get(i));
@@ -80,7 +98,7 @@ public class FileReader {
        // goals.add(4);
         goals.add(6);
         goals.add(7);
-        AStar.executeAStar(0, goals);
+        //AStar.executeAStar(0, goals);
         //DepthFirst.executeDFS(City.mainCities.get(0), goal );
 
         //OptimalTwo.executeOptimalTwo(0, goal);
