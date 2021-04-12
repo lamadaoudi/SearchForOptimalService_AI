@@ -1,0 +1,18 @@
+.jfx-combo-box {
+
+	 -fx-text-inner-color: #ffffff;
+}
+
+.jfx-combo-box .label {
+	-fx-text-inner-color: #ffffff;
+}
+.combo-box .cell{
+    -fx-text-fill: white;
+    -fx-background-color:  #393e46;
+    -fx-font: 16px "Arial";
+}
+.combo-box .cell:hover{
+    -fx-text-fill: white;
+    -fx-background-color: #364547;
+    -fx-font: 16px "Arial";
+}
