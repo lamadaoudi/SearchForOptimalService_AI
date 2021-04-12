@@ -17,9 +17,11 @@ public class FileReader {
     public static HashMap<String, Integer> mapCitiesIndex = new HashMap<>();
     public static HashMap<Integer, CoordinateNode> cityCoordinates = new HashMap<>();
 
+
     public static void initializeReader() {
+        City.mainCities = new ArrayList<>();
         try {
-            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\backup.txt");
+            File myObj = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\tryTe.txt");
             Scanner myReader = new Scanner(myObj);
             String firstRow = myReader.nextLine();
             String[] arrayOfCityNames = firstRow.split("\t");
@@ -61,7 +63,7 @@ public class FileReader {
                 counter++;
             }
             myReader.close();
-            File readerCoordinate = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\coordinates.txt");
+            File readerCoordinate = new File("C:\\Users\\Main\\IdeaProjects\\SearchForOptimalService_AI\\SearchAlgos_AI_ProjectOne\\cityCoordinates.txt");
             Scanner scannerCoordinate = new Scanner(readerCoordinate);
             int countCities = 0;
             while (scannerCoordinate.hasNextLine()) {
