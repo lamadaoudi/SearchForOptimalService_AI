@@ -11,16 +11,16 @@ public class OptimalTwo {
     static double[][] floydMatrix = new double[size][size];
     static ArrayList<City> overallPath = new ArrayList<>();
 
-    public static double getAlpha (){
+    public static double getAlpha() {
         double alpha;
         SimpleDateFormat formatter = new SimpleDateFormat("HH");
         Date date = new Date();
         int hour = Integer.parseInt(formatter.format(date));
-        if (hour >= 7 && hour <=10 || hour >13 && hour <=17)
-            alpha = randomInRange(1,2);
+        if (hour >= 7 && hour <= 10 || hour > 13 && hour <= 17)
+            alpha = randomInRange(1, 2);
         else if (hour > 10 && hour <= 13)
             alpha = randomInRange(0.7, 1);
-        else if (hour > 17 && hour <=20)
+        else if (hour > 17 && hour <= 20)
             alpha = 1;
         else
             alpha = randomInRange(0.8, 1);
@@ -36,10 +36,10 @@ public class OptimalTwo {
         return rounded;
     }
 
-    public static ArrayList<City> executeOptimalTwo(int startNode, ArrayList<Integer> goalNodes){
+    public static ArrayList<City> executeOptimalTwo(int startNode, ArrayList<Integer> goalNodes) {
         overallPath = new ArrayList<>();
-        for (int i = 0; i< distanceMatrix.length; i++){
-            for (int j=0; j< distanceMatrix.length; j++) {
+        for (int i = 0; i < distanceMatrix.length; i++) {
+            for (int j = 0; j < distanceMatrix.length; j++) {
                 if (distanceMatrix[i][j] != Double.POSITIVE_INFINITY)
                     distanceMatrix[i][j] = Math.round(distanceMatrix[i][j] * getAlpha() * 100.0) / 100.0;
             }
@@ -59,7 +59,7 @@ public class OptimalTwo {
         for (int i = 1; i < newSize; i++)
             array[i] = goalNodes.get(i - 1);
         Arrays.sort(array);
-        for (int i=0; i<newSize; i++){
+        for (int i = 0; i < newSize; i++) {
             if (array[i] == startNode)
                 newStart = i;
         }
@@ -90,17 +90,11 @@ public class OptimalTwo {
             }
         }
 
-//        for(int i=0; i<overallPath.size(); i++){
-//            System.out.println(City.mainCities.get(array[(Integer) salesmanTour.get(i)]).getCityName());
-//        }
 
         System.out.println("THE OVERALL PATH ISSSSS*******************************************");
         for (int i = 0; i < overallPath.size(); i++) {
             System.out.println(overallPath.get(i).getCityName());
         }
-        //System.out.println("Tour: " + solver.getTour());
-
-        // Print: 42.0
         System.out.println("Tour cost: " + solver.getTourCost());
         return overallPath;
 

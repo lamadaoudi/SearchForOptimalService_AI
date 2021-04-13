@@ -35,20 +35,15 @@ public class City {
     }
 
     public void setCityName(String cityName) {
-
         this.cityName = cityName;
     }
 
     public void setCityInfo(Info cityInfo) {
-
         this.cityInfo = cityInfo;
-        // this.cityInfo.setSummation(cityInfo.getSummation());
     }
 
     public void setAdjacentCities(ArrayList<City> adjacentCities) {
-
         this.adjacentCities = new ArrayList<>(adjacentCities);
-        //this.adjacentCities = adjacentCities;
     }
 
     public void setParent(City parent) {
@@ -77,13 +72,7 @@ public class City {
     }
 
     public void setHeuristicCities(ArrayList<City> heuristicCities) {
-//        for(int i=0; i<heuristicCities.size();i++){
-//            City temp = new City(heuristicCities.get(i).getCityName(), heuristicCities.get(i).getCityInfo());
-//            temp.setAdjacentCities(heuristicCities.get(i).getAdjacentCities());
-//
-//        }
         this.heuristicCities = new ArrayList<>(heuristicCities);
-        //this.heuristicCities = heuristicCities;
     }
 
     public City getParent() {

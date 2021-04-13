@@ -6,7 +6,6 @@
 package classes;
 
 /**
- *
  * @author Main
  */
 public class Info {
