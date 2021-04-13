@@ -8,8 +8,10 @@ public class TspDynamicProgrammingRecursive {
     private final int N;
     private final int START_NODE;
     private final int FINISHED_STATE;
+
     private double[][] distance;
     private double minTourCost = Double.POSITIVE_INFINITY;
+
     private List<Integer> tour = new ArrayList<>();
     private boolean ranSolver = false;
 
@@ -22,6 +24,7 @@ public class TspDynamicProgrammingRecursive {
         this.distance = distance;
         N = distance.length;
         START_NODE = startNode;
+
         // Validate inputs.
         if (N <= 2) throw new IllegalStateException("TSP on 0, 1 or 2 nodes doesn't make sense.");
         if (N != distance[0].length)
